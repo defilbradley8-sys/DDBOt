@@ -140,7 +140,7 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
                     <Button
                         tertiary
                         onClick={() => {
-                            window.open(AFFILIATE_URL, '_blank', 'noopener,noreferrer');
+                            window.location.href = AFFILIATE_URL;
                         }}
                     >
                         <Localize i18n_default_text='Log in' />
@@ -148,7 +148,7 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
                     <Button
                         primary
                         onClick={() => {
-                            window.open(AFFILIATE_URL, '_blank', 'noopener,noreferrer');
+                            window.location.href = AFFILIATE_URL;
                         }}
                     >
                         <Localize i18n_default_text='Sign up' />
