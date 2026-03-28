@@ -10,130 +10,44 @@ interface Bot {
     description: string;
     fileName: string;
     category: string;
-    icon: string;
+    badge: string;
+    stats: { label: string; value: string }[];
 }
 
 const BOTS: Bot[] = [
     {
         id: '1',
-        name: 'Expert Speed Bot',
-        description: 'Advanced speed trading bot with optimized entry and exit points for quick trades.',
-        fileName: '2_2025_Updated_Expert_Speed_Bot_Version_📉📉📉📈📈📈_1_1_1765711647656.xml',
-        category: 'Speed Trading',
-        icon: '⚡',
-    },
-    {
-        id: '2',
-        name: 'Candle Mine Bot',
-        description: 'Analyzes candlestick patterns to identify profitable trading opportunities.',
-        fileName: '3_2025_Updated_Version_Of_Candle_Mine🇬🇧_1765711647657.xml',
-        category: 'Pattern Analysis',
-        icon: '🕯️',
-    },
-    {
-        id: '3',
-        name: 'Accumulators Pro Bot',
-        description: 'Professional accumulator strategy bot for consistent growth trading.',
-        fileName: 'Accumulators_Pro_Bot_1765711647657.xml',
-        category: 'Accumulators',
-        icon: '📈',
-    },
-    {
-        id: '4',
-        name: 'AI Entry Point Bot',
-        description: 'AI-powered bot that identifies optimal entry points for maximum profit.',
-        fileName: 'AI_with_Entry_Point_1765711647658.xml',
-        category: 'AI Trading',
-        icon: '🤖',
-    },
-    {
-        id: '5',
-        name: 'Alex Speed Bot EXPRO2',
-        description: 'Enhanced speed trading bot with advanced algorithms for rapid execution.',
-        fileName: 'ALEXSPEEDBOT__EXPRO2_(2)_(1)_1765711647659.xml',
-        category: 'Speed Trading',
-        icon: '🚀',
-    },
-    {
-        id: '6',
-        name: 'Alpha AI Two Predictions',
-        description: 'Dual prediction AI system for higher accuracy in market forecasting.',
-        fileName: 'Alpha_Ai_Two_Predictions__1765711647659.xml',
-        category: 'AI Trading',
-        icon: '🎯',
-    },
-    {
-        id: '7',
-        name: 'Auto C4 Volt Premium',
-        description: 'Premium automated trading bot with advanced market analysis features.',
-        fileName: 'AUTO_C4_VOLT_🇬🇧_2_🇬🇧_AI_PREMIUM_ROBOT_(2)_(1)_1765711647660.xml',
-        category: 'Premium',
-        icon: '⚡',
-    },
-    {
-        id: '8',
-        name: 'Binary Flipper AI Plus',
-        description: 'AI-enhanced binary options trading bot with flip strategy optimization.',
-        fileName: 'BINARY_FLIPPER_AI_ROBOT_PLUS_+_1765711647660.xml',
-        category: 'AI Trading',
-        icon: '🔄',
-    },
-    {
-        id: '9',
-        name: 'Binarytool Wizard AI',
-        description: 'Intelligent trading wizard with multiple strategy implementations.',
-        fileName: 'BINARYTOOL_WIZARD_AI_BOT_1765711647661.xml',
-        category: 'AI Trading',
-        icon: '🧙',
-    },
-    {
-        id: '10',
-        name: 'Binarytool Differ V2.0',
-        description: 'Version 2.0 differ bot with improved accuracy and performance.',
-        fileName: 'BINARYTOOL@_DIFFER_V2.0_(1)_(1)_1765711647662.xml',
-        category: 'Differ',
-        icon: '📊',
-    },
-    {
-        id: '11',
-        name: 'Even Odd Thunder AI Pro',
-        description: 'Professional even/odd prediction bot with thunder-fast execution.',
-        fileName: 'BINARYTOOL@EVEN_ODD_THUNDER_AI_PRO_BOT_1765711647662.xml',
-        category: 'Even/Odd',
-        icon: '⚡',
-    },
-    {
-        id: '12',
-        name: 'Even & Odd AI Bot',
-        description: 'Smart AI bot specialized in even and odd digit predictions.',
-        fileName: 'BINARYTOOL@EVEN&ODD_AI_BOT_(2)_1765711647663.xml',
-        category: 'Even/Odd',
-        icon: '🎲',
+        name: 'Smart Over 3 Pro Bot',
+        description:
+            'A sophisticated over/under digit trading bot that intelligently analyzes digit distribution across Volatility 100 Index. Uses advanced martingale logic with configurable split levels, win percentage thresholds, and multi-layer prediction to maximize profitability while managing risk.',
+        fileName: 'Smart_Over_3_Pro_Bot_1774691917575.xml',
+        category: 'Over / Under',
+        badge: 'PRO',
+        stats: [
+            { label: 'Market', value: 'Volatility 100' },
+            { label: 'Strategy', value: 'Over / Under' },
+            { label: 'Type', value: 'Digits' },
+            { label: 'Risk', value: 'Managed' },
+        ],
     },
 ];
 
 const FreeBots = observer(() => {
     const { dashboard } = useStore();
     const [loadingBotId, setLoadingBotId] = useState<string | null>(null);
-    const [selectedCategory, setSelectedCategory] = useState<string>('All');
-
-    const categories = ['All', ...Array.from(new Set(BOTS.map(bot => bot.category)))];
-
-    const filteredBots = selectedCategory === 'All' 
-        ? BOTS 
-        : BOTS.filter(bot => bot.category === selectedCategory);
 
     const loadBot = async (bot: Bot) => {
+        if (loadingBotId) return;
         try {
             setLoadingBotId(bot.id);
-            
+
             const response = await fetch(`/bots/${bot.fileName}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch bot file');
             }
-            
+
             const xmlContent = await response.text();
-            
+
             await load({
                 block_string: xmlContent,
                 file_name: bot.name,
@@ -146,7 +60,6 @@ const FreeBots = observer(() => {
 
             dashboard.setActiveTab(1);
             window.location.hash = 'bot_builder';
-            
         } catch (error) {
             console.error('Error loading bot:', error);
         } finally {
@@ -157,55 +70,114 @@ const FreeBots = observer(() => {
     return (
         <div className='free-bots'>
             <div className='free-bots__header'>
-                <h1 className='free-bots__title'>Free Trading Bots</h1>
+                <div className='free-bots__header-badge'>Free Bots</div>
+                <h1 className='free-bots__title'>Ready-to-Use Trading Bots</h1>
                 <p className='free-bots__subtitle'>
-                    Explore our collection of pre-built trading bots. Click on any bot to load it into the Bot Builder.
+                    Click on a bot card to instantly load it into the Bot Builder and start trading.
                 </p>
             </div>
 
-            <div className='free-bots__categories'>
-                {categories.map(category => (
-                    <button
-                        key={category}
-                        className={`free-bots__category-btn ${selectedCategory === category ? 'free-bots__category-btn--active' : ''}`}
-                        onClick={() => setSelectedCategory(category)}
-                    >
-                        {category}
-                    </button>
-                ))}
-            </div>
-
             <div className='free-bots__grid'>
-                {filteredBots.map(bot => (
-                    <div key={bot.id} className='free-bots__card'>
-                        <div className='free-bots__card-header'>
-                            <span className='free-bots__card-icon'>{bot.icon}</span>
-                            <span className='free-bots__card-category'>{bot.category}</span>
-                        </div>
-                        <h3 className='free-bots__card-title'>{bot.name}</h3>
-                        <p className='free-bots__card-description'>{bot.description}</p>
-                        <button
-                            className='free-bots__card-btn'
+                {BOTS.map(bot => {
+                    const isLoading = loadingBotId === bot.id;
+                    return (
+                        <div
+                            key={bot.id}
+                            className={`free-bots__card ${isLoading ? 'free-bots__card--loading' : ''}`}
                             onClick={() => loadBot(bot)}
-                            disabled={loadingBotId === bot.id}
+                            role='button'
+                            tabIndex={0}
+                            onKeyDown={e => e.key === 'Enter' && loadBot(bot)}
+                            aria-label={`Load ${bot.name} into Bot Builder`}
                         >
-                            {loadingBotId === bot.id ? (
-                                <span className='free-bots__card-btn-loading'>Loading...</span>
-                            ) : (
-                                <>
-                                    <span>Load Bot</span>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                            <div className='free-bots__card-glow' />
+
+                            <div className='free-bots__card-top'>
+                                <div className='free-bots__card-icon-wrap'>
+                                    <svg
+                                        className='free-bots__card-icon-svg'
+                                        viewBox='0 0 48 48'
+                                        fill='none'
+                                        xmlns='http://www.w3.org/2000/svg'
+                                    >
+                                        <circle cx='24' cy='24' r='24' fill='url(#botGradient)' />
+                                        <path
+                                            d='M14 28l6-8 4 5 4-6 6 9'
+                                            stroke='white'
+                                            strokeWidth='2.5'
+                                            strokeLinecap='round'
+                                            strokeLinejoin='round'
+                                        />
+                                        <circle cx='14' cy='28' r='2' fill='white' />
+                                        <circle cx='34' cy='28' r='2' fill='white' />
+                                        <defs>
+                                            <linearGradient id='botGradient' x1='0' y1='0' x2='48' y2='48'>
+                                                <stop offset='0%' stopColor='#ff444f' />
+                                                <stop offset='100%' stopColor='#ff8f6b' />
+                                            </linearGradient>
+                                        </defs>
                                     </svg>
-                                </>
-                            )}
-                        </button>
-                    </div>
-                ))}
+                                </div>
+                                <div className='free-bots__card-badges'>
+                                    <span className='free-bots__card-badge free-bots__card-badge--pro'>
+                                        {bot.badge}
+                                    </span>
+                                    <span className='free-bots__card-badge free-bots__card-badge--category'>
+                                        {bot.category}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div className='free-bots__card-body'>
+                                <h3 className='free-bots__card-title'>{bot.name}</h3>
+                                <p className='free-bots__card-description'>{bot.description}</p>
+                            </div>
+
+                            <div className='free-bots__card-stats'>
+                                {bot.stats.map(stat => (
+                                    <div key={stat.label} className='free-bots__card-stat'>
+                                        <span className='free-bots__card-stat-value'>{stat.value}</span>
+                                        <span className='free-bots__card-stat-label'>{stat.label}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className='free-bots__card-footer'>
+                                <div className='free-bots__card-cta'>
+                                    {isLoading ? (
+                                        <>
+                                            <span className='free-bots__card-spinner' />
+                                            <span>Loading into Builder...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span>Open in Bot Builder</span>
+                                            <svg
+                                                className='free-bots__card-arrow'
+                                                width='18'
+                                                height='18'
+                                                viewBox='0 0 24 24'
+                                                fill='none'
+                                                stroke='currentColor'
+                                                strokeWidth='2.5'
+                                            >
+                                                <path d='M5 12h14M12 5l7 7-7 7' />
+                                            </svg>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
 
             <div className='free-bots__footer'>
-                <p>All bots are provided for educational purposes. Always test with demo accounts first.</p>
+                <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2'>
+                    <circle cx='12' cy='12' r='10' />
+                    <path d='M12 8v4M12 16h.01' />
+                </svg>
+                <span>All bots are provided for educational purposes. Always test with a demo account first.</span>
             </div>
         </div>
     );
