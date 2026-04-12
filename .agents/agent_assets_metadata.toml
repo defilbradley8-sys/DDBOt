@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "PY6_wHR2_GYFJG9piOxfv"
+uri = "file://bradleyfx-bot.tar.gz"
+type = "unspecified"
+title = "bradleyfx-bot — Project Files"
