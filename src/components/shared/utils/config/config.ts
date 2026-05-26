@@ -23,6 +23,8 @@ export const domain_app_ids = {
     'dbot.deriv.com': APP_IDS.PRODUCTION,
     'dbot.deriv.be': APP_IDS.PRODUCTION_BE,
     'dbot.deriv.me': APP_IDS.PRODUCTION_ME,
+    'bradleyfx.site': '33lSaCAsd8nJJj4dXs1HW' as unknown as number,
+    'www.bradleyfx.site': '33lSaCAsd8nJJj4dXs1HW' as unknown as number,
 };
 
 export const getCurrentProductionDomain = () =>

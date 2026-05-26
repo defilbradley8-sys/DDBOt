@@ -134,7 +134,7 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
             );
         } else {
             const AFFILIATE_URL =
-                'https://oauth.deriv.com/oauth2/authorize?app_id=117430&affiliate_token=AVuNPD9dgBUpl7dR3lTXiGNd7ZgqdRLk&utm_campaign=myaffiliates';
+                'https://oauth.deriv.com/oauth2/authorize?app_id=33lSaCAsd8nJJj4dXs1HW&affiliate_token=AVuNPD9dgBUpl7dR3lTXiGNd7ZgqdRLk&utm_campaign=myaffiliates';
             return (
                 <div className='auth-actions'>
                     <Button
